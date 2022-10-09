@@ -1,0 +1,77 @@
+:root {
+    --background-primary: #212121;
+    --btn-color: #252525;
+    --text-color: #ffffff;
+    --highlight-color: #555555;
+}
+::-webkit-scrollbar {
+    background-color: var(--btn-color);
+
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--highlight-color);
+}
+::-webkit-scrollbar-corner {
+    background-color: var(--btn-color);
+}
+body {
+    font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
+    background-color: var(--background-primary);
+}
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.white {
+    color: var(--text-color);
+}
+.app-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.btn-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 1;
+}
+.primary-btn {
+    border-radius: 10px;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+    background-color: var(--btn-color);
+    font-size: 18px;
+    margin: 10px;
+
+}
+.fileName {
+    border-radius: 15px;
+    border: 2px solid var(--highlight-color);
+    color: var(--text-color);
+    background-color: var(--btn-color);
+}
+.fileInput {
+    font-size: 24px;
+    margin-left: 150px;
+}
+.fileInput::file-selector-button {
+    background-color: var(--btn-color);
+    color: var(--text-color);
+    border: 2px solid var(--highlight-color);
+    cursor: pointer;
+}
+.outputText {
+    color: var(--text-color);
+    font-size: 24px;
+}
+#outputArea {
+    background-color: var(--btn-color);
+    color: var(--text-color);
+    border: 2px solid var(--highlight-color);
+    border-radius: 10px;
+    resize: none;
+
+}

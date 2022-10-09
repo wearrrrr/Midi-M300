@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>MIDI to M300</title>
+</head>
+
+<body>
+  <script src="https://unpkg.com/@tonejs/midi"></script>
+  <script type="text/javascript" src="https://unpkg.com/tone@13.4.9/build/Tone.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <div class="title">
+      <h1 class="white">MIDI to M300 Converter</h1>
+  </div>
+<div class="app-wrapper">
+            <div id="trackInfo"></div>
+        <div class="btn-wrapper">
+            <button class="primary-btn" type="button" id="start" onclick="handleMidi()">Generate GCODE</button>
+            <button class="primary-btn" type="button" id="checkAllInst" onclick="toggleInst()">Enable All Instruments</button>
+            <button class="primary-btn" type="button" id="previewStart" onclick="togglePreview()">Play/Pause Preview</button>
+            <button class="primary-btn" type="button" id="previewStop" onclick="stopPreview()">Stop Preview</button>
+            <button class="primary-btn" type="button" id="saveOutput" onclick="saveOutput()">Save GCODE</button>
+        </div>
+        <input class="white fileInput" type="file" id="inputfile">
+        <br>
+        <label class="white" for="fileName">File Name (save as): <input class="fileName" type="text" id="fileName"></label>
+    </div>
+    <div>
+    <center>
+        <input type="checkbox" id="g4toggle">
+        <label class="white" for="g4toggle"> Add G4 after M300 (required for Duet)</label>
+    </center>
+    </div>
+    <br>
+    <center>
+        <span class="outputText">Output: </span>
+    </center>
+        <br>
+    <center>
+
+        <textarea id="outputArea" rows="50" cols="100"></textarea>
+    </center>
+    <script src="./midihandler.js">
+    </script>
+</div>
+
+</body>
+
+</html>
