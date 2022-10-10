@@ -38,13 +38,46 @@ function playNote(frequency, duration) {
     // Simulate a startup time of 5ms
     return (time) => { synth.triggerAttackRelease(frequency, duration - 5 / 1000, time) };
 }
-
+let playbackStarted = false;
 function togglePreview() {
-    Tone.Transport.toggle();
+    // error handling
+    if (document.getElementById("outputArea").value == '') {
+        SnackBar({
+            message: "No MIDI to play! Upload one first, and generate!",
+            status: "danger",
+            timeout: 1000,
+        })
+        console.log("M-M300 || Error 3: No notes to play!")
+        return
+    }
+
+
+// Playback checking code, toggle just kinda felt tacky and weird...
+    if (playbackStarted == false) {
+        // start tone playing from queue
+        Tone.Transport.start();
+        playbackStarted = true;
+        document.getElementById("previewStart").textContent = "Stop Preview"
+        return "Started Playback";
+    }
+    if (playbackStarted == true) {
+        Tone.Transport.stop();
+        playbackStarted = false;
+        document.getElementById("previewStart").textContent = "Play Preview"
+        return "Stopped Playback";
+    }
+}
+
+function revertPlay() {
+    Tone.Transport.stop();
+    playbackStarted = false;
+    document.getElementById("previewStart").textContent = "Play Preview"
+    return "Successfully reverted PlayState.";
 }
 
 function stopPreview() {
     Tone.Transport.stop();
+    revertPlay()
 }
 
 function generateTrackInfo(midi) {
@@ -54,6 +87,7 @@ function generateTrackInfo(midi) {
     infoDiv.innerHTML += `<input class="track-btn" id="trackButton${index}" type="checkbox" value=${index}> <p>Track ${index +
         1}: ${track.instrument.name} - ${track.notes.length} notes</p><br>`;
     });
+    revertPlay()
 }
 
 // From https://gist.github.com/YuxiUx/ef84328d95b10d0fcbf537de77b936cd
@@ -70,19 +104,12 @@ function handleMidi() {
     Tone.Transport.cancel();
 
     if (!midi) {
-    Toastify({
-        text: "No Midi Provided!",
-        duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: "top", // `top` or `bottom`
-        position: "right", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        style: {
-            background: "#555555",
-        },
-        onClick: function(){} // Callback after click
-    }).showToast();
+    let error = SnackBar({
+        message: "Couldn't Find MIDI File!",
+        status: "danger",
+        timeout: 5000,
+    })
+    console.log("M-M300 || Error 1: Couldn't find MIDI file!!")
     return;
     }
 
@@ -185,13 +212,19 @@ function handleMidi() {
     gcode.push("; GCODE produced by MIDI-M300!")
     const output = gcode.reduce((acc, e) => acc + e, "");
     document.getElementById("outputArea").value = output;
+    revertPlay()
 }
 
 function saveOutput() {
     let output = document.getElementById("outputArea").value;
     let fileName = document.getElementById("fileName").value;
     if (output.length <= 0) {
-        alert("null output! try selecting a midi and generating it first!!") 
+        let error = SnackBar({
+            message: "Output returned null! Generate GCODE before saving!",
+            status: "danger",
+            timeout: 5000,
+        })
+        console.log('M-M300 || Error 2: document.getElementById("outputArea".value) returned null!')
         return
     }
     if (fileName.length <= 0) {
