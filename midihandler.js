@@ -51,17 +51,14 @@ function generateTrackInfo(midi) {
     let infoDiv = document.getElementById("trackInfo");
     infoDiv.innerHTML = '';
     const trackSelectors = midi.tracks.forEach((track, index) => {
-    infoDiv.innerHTML += `<input id="trackButton${index}" type="checkbox" value=${index}> Track ${index +
-        1}: ${track.instrument.name} - ${track.notes.length} notes<br>`;
+    infoDiv.innerHTML += `<input class="track-btn" id="trackButton${index}" type="checkbox" value=${index}> <p>Track ${index +
+        1}: ${track.instrument.name} - ${track.notes.length} notes</p><br>`;
     });
-    infoDiv.innerHTML +=
-    'Speed multiplier: <input id="speedMultiplierInput" type="number" step="0.01" min="0.01" value="1">';
-    document.getElementById("trackButton0").checked = true;
 }
 
 // From https://gist.github.com/YuxiUx/ef84328d95b10d0fcbf537de77b936cd
 function noteToFreq(note) {
-    let a = 440; //frequency of A (common value is 440Hz)
+    let a = 440; //"A" Frequency, changing this will change the pitch for all notes!
     return (a / 32) * 2 ** ((note - 9) / 12);
 }
 
@@ -73,7 +70,19 @@ function handleMidi() {
     Tone.Transport.cancel();
 
     if (!midi) {
-    alert("No MIDI provided.");
+    Toastify({
+        text: "No Midi Provided!",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+            background: "#555555",
+        },
+        onClick: function(){} // Callback after click
+    }).showToast();
     return;
     }
 
@@ -197,4 +206,21 @@ function saveOutput() {
     }
     let blob = new Blob([output], {type: "text/plain;charset=utf-8"})
     saveAs(blob, fileName + ".gcode");
+}
+let toggled = false;
+function toggleInst() {
+    if (toggled == false) {
+        toggled = true;
+        midi.tracks.forEach((track, index) => {  
+            document.getElementById(`trackButton${index}`).checked = true
+        })
+        return;
+    } else if (toggled == true) {
+        toggled = false;
+        midi.tracks.forEach((track, index) => {  
+            document.getElementById(`trackButton${index}`).checked = false
+        })
+        return
+    }
+
 }

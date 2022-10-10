@@ -13,14 +13,14 @@
   <script src="https://unpkg.com/@tonejs/midi"></script>
   <script type="text/javascript" src="https://unpkg.com/tone@13.4.9/build/Tone.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <div class="title">
       <h1 class="white">MIDI to M300 Converter</h1>
   </div>
 <div class="app-wrapper">
-            <div id="trackInfo"></div>
         <div class="btn-wrapper">
             <button class="primary-btn" type="button" id="start" onclick="handleMidi()">Generate GCODE</button>
-            <button class="primary-btn" type="button" id="checkAllInst" onclick="toggleInst()">Enable All Instruments</button>
+            <button class="primary-btn" type="button" id="checkAllInst" onclick="toggleInst()">Toggle All Instruments</button>
             <button class="primary-btn" type="button" id="previewStart" onclick="togglePreview()">Play/Pause Preview</button>
             <button class="primary-btn" type="button" id="previewStop" onclick="stopPreview()">Stop Preview</button>
             <button class="primary-btn" type="button" id="saveOutput" onclick="saveOutput()">Save GCODE</button>
@@ -28,8 +28,13 @@
         <input class="white fileInput" type="file" id="inputfile">
         <br>
         <label class="white" for="fileName">File Name (save as): <input class="fileName" type="text" id="fileName"></label>
+        <br>
+        <span class="white">Speed multiplier:</span><input class="white speedMultiInput" id="speedMultiplierInput" type="number" step="0.01" min="0.01" value="1">
     </div>
     <div>
+    <center>
+        <div id="trackInfo"></div>
+    </center>
     <center>
         <input type="checkbox" id="g4toggle">
         <label class="white" for="g4toggle"> Add G4 after M300 (required for Duet)</label>
@@ -44,8 +49,8 @@
 
         <textarea id="outputArea" rows="50" cols="100"></textarea>
     </center>
-    <script src="./midihandler.js">
-    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="./midihandler.js"></script>
 </div>
 
 </body>

@@ -63,6 +63,15 @@ body {
     border: 2px solid var(--highlight-color);
     cursor: pointer;
 }
+.speedMultiInput {
+    background-color: var(--btn-color);
+    border: 2px solid var(--highlight-color);
+}
+.speedMultiInput::-webkit-outer-spin-button,
+.speedMultiInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .outputText {
     color: var(--text-color);
     font-size: 24px;
@@ -74,4 +83,16 @@ body {
     border-radius: 10px;
     resize: none;
 
+}
+#trackInfo {
+    width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+#trackInfo > * {
+    flex: 0 0 33.3333%;
+}
+#trackInfo > p {
+    color: var(--text-color);
 }
